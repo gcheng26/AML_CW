@@ -1,0 +1,1 @@
+- frequency_analysis.m is a MATLAB script that imports wavfilenames.mat (a MATLAB version of wav_filenames.csv), produces a power spectrum for each signal against normalised frequency, and saves each frequency-domain signal as a 1D histogram (array of length 4096). It then stacks up all the histograms, outputting a 920x4096 matrix as freq_components.mat.

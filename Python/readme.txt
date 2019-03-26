@@ -1,0 +1,3 @@
+- feature_extract.ipynb is a Jupyter notebook file used to experiment with instructions before implementing the code in a Python file.
+- separate_wav_and_txt.py is a Python script that saves the names of wav and txt files in two separate lists. Useful when importing only wav files or only txt files for preprocessing.
+- wav_filenames.csv is a csv exported from the previous Python script, containing only names of wav files.
