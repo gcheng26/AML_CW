@@ -11,4 +11,5 @@ for i = 1:num_of_wav_files
     power_spectra = log(power_spectra);
     freq_components(i,:) = transpose(power_spectra);
 end
+csvwrite('freq_components.csv', freq_components);
 cd('/home/hans/Documents/Year 4/Advanced Machine Learning/Assignment/MATLAB');
