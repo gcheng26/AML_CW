@@ -22,7 +22,6 @@ principalComponents = pca.fit_transform(power_spectra)
 
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-#ax = Axes3D(fig)
 ax.set_xlabel('Principal Component 1', fontsize=15)
 ax.set_ylabel('Principal Component 2', fontsize=15)
 ax.set_zlabel('Principal Component 3', fontsize=15)
@@ -41,6 +40,5 @@ for i in range(920):
                    , c=colour
                    , s=50)
 
-#ax.legend(targets)
 ax.grid()
 fig.show()
