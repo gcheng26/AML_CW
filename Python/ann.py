@@ -13,6 +13,10 @@ label_names = get_labels()
 index_to_delete = label_names.index('Asthma')
 del(label_names[index_to_delete])
 dataframe = np.delete(dataframe, index_to_delete, 0)
+for i in range(2):
+    index_to_delete = label_names.index('LRTI')
+    del (label_names[index_to_delete])
+    dataframe = np.delete(dataframe, index_to_delete, 0)
 # Encode output variable
 encoder = LabelEncoder()
 encoder.fit(label_names)
