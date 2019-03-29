@@ -10,6 +10,8 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from keras.callbacks import EarlyStopping
 from keras.callbacks import ModelCheckpoint
+from keras.models import load_model
+from sklearn.metrics import confusion_matrix
 
 num_of_features = 20
 
@@ -54,13 +56,16 @@ model = baseline_model()
 es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=10)
 mc = ModelCheckpoint('best_model_'+str(num_of_features)+'_features.h5', monitor='val_acc', mode='max', verbose=1, save_best_only=True)
 
-
 # Train model
-history = model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=500, verbose=0, callbacks=[es, mc])
-# evaluate the model
-_, train_acc = model.evaluate(X_train, y_train, verbose=0)
-_, test_acc = model.evaluate(X_test, y_test, verbose=0)
+history = model.fit(X_train, y_train, validation_split=0.25, epochs=500, verbose=0, callbacks=[es, mc])
+
+# evaluate the saved model
+#saved_model = load_model('best_model_'+str(num_of_features)+'_features.h5')
+saved_model = load_model('94percent_20_features.h5')
+_, train_acc = saved_model.evaluate(X_train, y_train, verbose=0)
+_, test_acc = saved_model.evaluate(X_test, y_test, verbose=0)
 print('Train: %.3f, Test: %.3f' % (train_acc, test_acc))
+
 # plot training history
 plt.plot(history.history['loss'], label='train')
 plt.plot(history.history['val_loss'], label='test')
@@ -69,3 +74,14 @@ plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.show()
 
+# confusion matrix
+y_pred = saved_model.predict(X_test)
+y_pred_cat = np.zeros((len(y_pred),), dtype=int)
+y_test_cat = np.zeros((len(y_pred),), dtype=int)
+for i in range(len(y_pred)):
+    max_index = np.argmax(y_pred[i])
+    y_pred_cat[i] = max_index
+    max_index = np.argmax(y_test[i])
+    y_test_cat[i] = max_index
+cm = confusion_matrix(y_test_cat, y_pred_cat)
+print(cm)

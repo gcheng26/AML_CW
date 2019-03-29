@@ -22,4 +22,3 @@ def get_labels():
             i = i+1
         labels.append(diagnose[i][1])
     return labels
-
