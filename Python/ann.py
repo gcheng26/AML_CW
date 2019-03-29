@@ -8,6 +8,7 @@ from keras.models import Sequential
 from keras.layers import Dense
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
+from keras.callbacks import EarlyStopping
 
 
 def baseline_model():
@@ -46,13 +47,13 @@ np.random.shuffle(features_and_labels)
 X_train, X_test, y_train, y_test = train_test_split(features_and_labels[:, 0:15], features_and_labels[:, 15:], test_size=0.25)
 
 
-#TODO: Implement callbacks + checkpoints
-
-
-#TODO: Train and evaluate model
-# fit model
+# Implement callback for early stopping
 model = baseline_model()
-history = model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=500, verbose=1)
+es = EarlyStopping(monitor='val_loss', mode='min', verbose=1, patience=10)
+
+
+# Train and evaluate model
+history = model.fit(X_train, y_train, validation_data=(X_test, y_test), epochs=500, verbose=1, callbacks=[es])
 # evaluate the model
 _, train_acc = model.evaluate(X_train, y_train, verbose=0)
 _, test_acc = model.evaluate(X_test, y_test, verbose=0)
@@ -61,4 +62,6 @@ print('Train: %.3f, Test: %.3f' % (train_acc, test_acc))
 plt.plot(history.history['loss'], label='train')
 plt.plot(history.history['val_loss'], label='test')
 plt.legend()
+plt.xlabel('Epoch')
+plt.ylabel('Loss')
 plt.show()
